@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css2?family=Cardo:ital@1&family=Montserrat:wght@700&family=Open+Sans:wght@400;600;700&family=Raleway:wght@700&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+
+  font-family: sans-serif;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+
+  background-image: linear-gradient(180deg, #146262, #4b3d59);
+  font-size: 5.5rem;
+}
+
+/* btn */
+.btn {
+  min-width: 25%;
+  padding: 2vh 1vmin;
+
+  border: none;
+  border-radius: 1vmin;
+
+  outline: none;
+
+  font-weight: bold;
+  font-family: 'Montserrat', sans-serif;
+
+  color: rgba(255, 255, 255, 0.9);
+  text-transform: uppercase;
+
+  background-color: rgba(255, 255, 255, 0.1);
+  font-size: inherit;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  border-color: #2d8f6c;
+}
+
+.btn:focus {
+  background-color: rgba(255, 255, 255, 0);
+  border-color: #d69bfc;
+}
+
+.menu-btn {
+  border: calc(max(0.5vmin, 2px)) solid #42d5a1;
+}
+
+.game-btn {
+  border: 2px solid #42d5a1;
+}
+
+
+/* media screen width */
+
+@media screen and (max-width: 4096px){
+  body {
+    font-size: 4rem;
+  }
+}
+
+@media screen and (max-width: 3840px){
+  body {
+    font-size: 3rem;
+  }
+}
+
+@media screen and (max-width: 1920px){
+  body {
+    font-size: 2.5rem;
+  }
+
+  .game-btn {
+    font-size: 0.9em;
+  }
+}
+
+@media screen and (max-width: 1366px){
+  body {
+    font-size: 2rem;
+  }
+
+  .game-btn {
+    font-size: 0.8em;
+  }
+}
+
+@media screen and (max-width: 1024px){
+  body {
+    font-size: 1.5rem;
+  }
+}
+
+@media screen and (max-width:  480px){
+  body {
+    font-size: 1rem;
+  }
+
+  .game-btn {
+    font-size: 0.7em;
+  }
+}
+
+@media screen and (max-width:  320px){
+  body {
+    font-size: 0.8rem;
+  }
+}

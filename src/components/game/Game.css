@@ -1,0 +1,30 @@
+.game {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  height: 80vh;
+  width: 100vw;
+  padding: 5vmin;
+  padding-bottom: 2vmin;
+
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+}
+
+.bottom-interface {
+  position: relative;
+
+  left: 0;
+  right: 0;
+  z-index: 3;
+
+  display: flex;
+  justify-content: space-between;
+}
+
+.game-btn {
+  min-width: 30%;
+}
