@@ -1,9 +1,13 @@
-import {DEL, EASY, GENERAL, LIST_LEN, MIDDLE} from "./constants";
+import {DEL, EASY, GENERAL, LIST_LEN, MIDDLE, PORTRAIT} from "./constants";
 
 export const random = function (start, end) {
   return Math.floor(Math.random() * (end - start + 1)) + start;
 }
 
+
+
+/* creating items' list
+------------------------------------------------------*/
 export const generateList = function(level) {
   const listLength = LIST_LEN[level];
   const del = DEL[level];
@@ -70,3 +74,158 @@ export const getDifferentElemsNumOfTwoArrays = function (arr1, arr2) {
     return notSameElemsNum;
   }
 }
+
+
+/* managing by remote controller
+------------------------------------------------------*/
+
+const remoteControllerDecorator = function() {
+  let screenOrientation = window.screen.orientation.type;
+
+  let btnList = [];
+  let enabledBtnList = [];
+  let currentElem = 0;
+  let currentElemAmongEnabled = 0;
+
+  let boardBtnNum = 0;
+  let rows = undefined;
+  let cols = undefined;
+
+
+  const orientationChangeHandler = function() {
+    window.screen.orientation.onchange = () => {
+      const currentScreenOrientation = window.screen.orientation.type;
+      if (rows && currentScreenOrientation !== screenOrientation) {
+        [rows, cols] = [cols, rows];
+      }
+    }
+  }
+
+
+  const setRemoteControllerConfig = function(boardItemsNum = 0) {
+    btnList = [];
+    if (boardItemsNum) {
+      [rows, cols] = considerRowsColsCount(boardItemsNum, screenOrientation);
+
+      btnList.push(...document.querySelectorAll('.img-btn'));
+    }
+
+    boardBtnNum = boardItemsNum;
+    btnList.push(...document.querySelectorAll('.managing-btn'));
+
+    currentElem = 0;
+    changeEnabledBtnList();
+
+    btnList[currentElem].focus();
+
+    document.addEventListener('keydown', moveHandler);
+  }
+
+  const changeEnabledBtnList = function() {
+    enabledBtnList = [];
+    for (let i = 0; i < btnList.length; i++) {
+      if (!btnList[i].disabled) enabledBtnList.push(i);
+    }
+    currentElemAmongEnabled = enabledBtnList.indexOf(currentElem);
+  }
+
+  const checkBoardBtn = function(btnInd) {
+    let btnIndInEnabledList = enabledBtnList.indexOf(btnInd);
+    enabledBtnList.splice(btnIndInEnabledList, 1);
+
+    if (enabledBtnList.length === 3) {
+      currentElemAmongEnabled = 2;
+    } else if (enabledBtnList[btnIndInEnabledList] === boardBtnNum) {
+        currentElemAmongEnabled = btnIndInEnabledList - 1;
+    } else {
+      currentElemAmongEnabled = btnIndInEnabledList;
+    }
+    currentElem = enabledBtnList[currentElemAmongEnabled];
+
+    btnList[currentElem].focus();
+  }
+
+  const moveHandler = function(event) {
+    switch(event.code) {
+      case 'ArrowDown':
+        getNextVerticalElem(1);
+        break;
+      case 'ArrowUp':
+        getNextVerticalElem(-1);
+        break;
+      case 'ArrowLeft':
+        getNextHorizonElem(-1);
+        break;
+      case 'ArrowRight':
+        getNextHorizonElem(1);
+        break;
+      default:
+        break;
+    }
+
+    btnList[currentElem].focus();
+  }
+
+
+  const getNextHorizonElem = function(direction) {
+    let nextElemAmongEnabled = currentElemAmongEnabled + direction;
+
+    if (nextElemAmongEnabled < 0) {
+      return;
+    } else if (nextElemAmongEnabled >= enabledBtnList.length) {
+      nextElemAmongEnabled = 0;
+    }
+
+    currentElemAmongEnabled = nextElemAmongEnabled;
+    currentElem = enabledBtnList[currentElemAmongEnabled];
+  }
+
+  const getNextVerticalElem = function(direction) {
+    if (!boardBtnNum) {
+      getNextHorizonElem(direction);
+      return;
+    } else if (currentElem >= boardBtnNum) {
+      getNextHorizonElem(direction);
+      return;
+    } else if (currentElem > boardBtnNum - cols && currentElem < boardBtnNum && direction === 1) {
+      currentElem = boardBtnNum;
+      currentElemAmongEnabled = enabledBtnList.indexOf(currentElem);
+      return;
+    }
+
+    let nextElem = currentElem;
+
+    do {
+      nextElem += cols * direction;
+    } while ((nextElem >= 0 && nextElem < boardBtnNum) && !enabledBtnList.includes(nextElem))
+
+    if (nextElem >= 0 && nextElem !== currentElem) {
+      currentElem = nextElem;
+      currentElemAmongEnabled = enabledBtnList.indexOf(currentElem);
+    }
+  }
+
+  return [setRemoteControllerConfig, changeEnabledBtnList, checkBoardBtn, orientationChangeHandler];
+}
+
+
+const considerRowsColsCount = function (itemsNum, screenOrientation) {
+  let cols = 0;
+  let rows = 0
+
+  if (itemsNum === LIST_LEN[EASY]) {
+    cols = 4;
+    rows = 3;
+  } else {
+    cols = 5;
+    rows = 4;
+  }
+
+  if (screenOrientation === PORTRAIT) {
+    [rows, cols] = [cols, rows];
+  }
+
+  return [rows, cols];
+}
+
+export const [setRemoteControllerConfig, changeEnabledBtnList, checkBoardBtn, orientationChangeHandler] = remoteControllerDecorator();

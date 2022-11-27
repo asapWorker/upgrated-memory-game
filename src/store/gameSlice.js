@@ -9,9 +9,8 @@ import {
   READY,
   LOADED,
   COUNTDOWN_END,
-  PAUSE_END, LIST_LEN
+  PAUSE_END
 } from "../constants";
-import {generateList} from "../functions";
 
 const gameSlice = createSlice({
   name: "game",

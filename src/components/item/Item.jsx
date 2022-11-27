@@ -1,5 +1,5 @@
 import "./Item.css";
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {
   ACTIVITY,
@@ -8,14 +8,13 @@ import {
   WRONG,
   LOADING,
   PATH,
-  READY,
-  WRAP, UNWRAPPED, BTN_WRAP, PAUSE, FINISH
+  READY
 } from "../../constants";
 import {changeResult, setReady} from "../../store/gameSlice";
+import {checkBoardBtn} from "../../functions";
 
 export function Item(props) {
   const [itemMark, setItemMark] = useState(UNMARKED);
-  const [isWrapped, setIsWrapped] = useState(WRAP);
 
   const level = useSelector(state => state.game.level);
   const gameStep = useSelector(state => state.game.step);
@@ -28,6 +27,8 @@ export function Item(props) {
     } else {
       setItemMark(WRONG);
     }
+
+    checkBoardBtn(props.imgInd - 1);
   }
 
   useEffect(() => {
@@ -43,25 +44,12 @@ export function Item(props) {
     }
   }, [itemMark])
 
-  useEffect(() => {
-    if (gameStep === LOADING) {
-      setIsWrapped(WRAP);
-    } else if (gameStep === ACTIVITY) {
-      setIsWrapped(BTN_WRAP);
-    } else if (gameStep === PAUSE) {
-      setIsWrapped(UNWRAPPED);
-    } else if (gameStep === FINISH) {
-      setIsWrapped(UNWRAPPED);
-    }
-  }, [gameStep])
-
-
   return (
     <div className={'item level-' + level + ' ' + itemMark}>
-      {(isWrapped === WRAP) && <div className={'img-wrapper'}/>}
+      {(gameStep === LOADING) && <div className={'img-wrapper'}/>}
 
       {
-        (isWrapped === BTN_WRAP) &&
+        (gameStep === ACTIVITY || gameStep === READY) &&
         <button
           disabled={(itemMark !== UNMARKED)}
           className={'btn img-btn'}

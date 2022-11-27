@@ -48,7 +48,7 @@ export const DEL = {
   [HARD]: 1
 }
 
-// item wrapping
-export const UNWRAPPED = 'unwrapped';
-export const WRAP = 'wrap';
-export const BTN_WRAP = 'btn-wrap';
+
+// screen orientation
+export const PORTRAIT = 'portrait-primary';
+export const LANDSCAPE = 'landscape-primary';

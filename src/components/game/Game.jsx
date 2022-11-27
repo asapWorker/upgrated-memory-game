@@ -7,15 +7,16 @@ import {
   finishGame,
   makePause,
   startActivity,
-  finishPause, finishCountdown, setInitResult
+  finishPause
 } from "../../store/gameSlice";
 import {Wrapper} from "../wrapper/Wrapper";
 import {
   PAUSE_TIME,
   READY,
   LOADED,
-  COUNTDOWN_END, COUNTDOWN, FINISH,
+  COUNTDOWN_END, COUNTDOWN, FINISH, ACTIVITY, LIST_LEN,
 } from "../../constants";
+import {changeEnabledBtnList, setRemoteControllerConfig} from "../../functions";
 
 // id for setTimeout in game
 let gameTimerId = null;
@@ -33,6 +34,7 @@ const pause = () => {
 export function Game(props) {
   const gameId = useSelector(state => state.game.gameId);
   const gameStep = useSelector(state => state.game.step);
+  const level = useSelector(state => state.game.level);
 
   const prevGameStep = useRef(undefined);
 
@@ -44,6 +46,7 @@ export function Game(props) {
   const resultBtn = useRef();
 
   useEffect(() => {
+    // stop timeout actions
     return () => {
       if (gameTimerId) clearTimeout(gameTimerId);
     }
@@ -60,6 +63,7 @@ export function Game(props) {
   }, [gameId])
 
   useEffect(() => {
+    // retrieve next gameStep
     if (gameStep === COUNTDOWN_END) {
       if (prevGameStep.current === LOADED) {
         dispatch(pause());
@@ -74,17 +78,27 @@ export function Game(props) {
 
     if (gameStep !== COUNTDOWN) prevGameStep.current = gameStep;
 
+    // set remote controller configs for managing
+    if (gameStep === ACTIVITY) {
+      setRemoteControllerConfig(LIST_LEN[level]);
+    } else if (gameStep === READY) {
+      changeEnabledBtnList();
+    } else if (gameStep === LOADED || gameStep === FINISH) {
+      setRemoteControllerConfig();
+    }
+
     console.log(gameStep);
   }, [gameStep])
+
 
   return (
     <div className="game">
       <Wrapper/>
       <Board/>
       <div className="bottom-interface">
-        <button ref={restartBtn} className="btn game-btn" onClick={restartBtnClickHandler}>Заново</button>
-        <button ref={menuBtn} className="btn game-btn" onClick={menuBtnClickHandler}>Меню</button>
-        <button ref={resultBtn} className="btn game-btn" onClick={resultBtnClickHandler}>Готово</button>
+        <button ref={restartBtn} className="btn game-btn managing-btn" onClick={restartBtnClickHandler}>Заново</button>
+        <button ref={menuBtn} className="btn game-btn managing-btn" onClick={menuBtnClickHandler}>Меню</button>
+        <button ref={resultBtn} className="btn game-btn managing-btn" onClick={resultBtnClickHandler}>Готово</button>
       </div>
     </div>
   )

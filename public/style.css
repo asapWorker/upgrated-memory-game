@@ -40,6 +40,11 @@ body {
   border-color: #2d8f6c;
 }
 
+.btn.disabled-focused:disabled {
+  opacity: 1;
+  border: solid calc(max(0.5vmin, 2px)) #7566b6;
+}
+
 .btn:focus {
   background-color: rgba(255, 255, 255, 0);
   border-color: #d69bfc;
