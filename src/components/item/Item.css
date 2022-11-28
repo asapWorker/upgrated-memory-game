@@ -70,11 +70,15 @@
   background-color: #61758a;
 }
 
+.item.unmarked .img-btn:hover {
+  background-color: #56687a;
+}
+
+
 .item.unmarked .img-btn:focus {
   border: 0px;
   background-color: #7566b6;
 }
-
 
 /* media orientation */
 

@@ -28,3 +28,12 @@
 .game-btn {
   min-width: 30%;
 }
+
+@media screen and (orientation: portrait) and (max-width: 480px) {
+  .game {
+    height: 75vh;
+    padding-top: 1vmin;
+
+    justify-content: space-evenly;
+  }
+}
