@@ -84,8 +84,8 @@ const remoteControllerDecorator = function() {
 
   let btnList = [];
   let enabledBtnList = [];
-  let currentElem = 0;
-  let currentElemAmongEnabled = 0;
+  let currentElem = -1;
+  let currentElemAmongEnabled = -1;
 
   let boardBtnNum = 0;
   let rows = undefined;
@@ -113,10 +113,15 @@ const remoteControllerDecorator = function() {
     boardBtnNum = boardItemsNum;
     btnList.push(...document.querySelectorAll('.managing-btn'));
 
-    currentElem = 0;
-    changeEnabledBtnList();
+    if (currentElem >= 0) {
+      currentElem = 0;
+      currentElemAmongEnabled = 0;
+      btnList[currentElem].focus();
+    } else {
+      currentElem = -1;
+    }
 
-    btnList[currentElem].focus();
+    changeEnabledBtnList();
 
     document.addEventListener('keydown', moveHandler);
   }
@@ -126,10 +131,12 @@ const remoteControllerDecorator = function() {
     for (let i = 0; i < btnList.length; i++) {
       if (!btnList[i].disabled) enabledBtnList.push(i);
     }
-    currentElemAmongEnabled = enabledBtnList.indexOf(currentElem);
+    currentElemAmongEnabled = (currentElem === -1) ? -1 : enabledBtnList.indexOf(currentElem);
   }
 
   const checkBoardBtn = function(btnInd) {
+    if (currentElem === -1) return;
+
     let btnIndInEnabledList = enabledBtnList.indexOf(btnInd);
     enabledBtnList.splice(btnIndInEnabledList, 1);
 
@@ -146,21 +153,26 @@ const remoteControllerDecorator = function() {
   }
 
   const moveHandler = function(event) {
-    switch(event.code) {
-      case 'ArrowDown':
-        getNextVerticalElem(1);
-        break;
-      case 'ArrowUp':
-        getNextVerticalElem(-1);
-        break;
-      case 'ArrowLeft':
-        getNextHorizonElem(-1);
-        break;
-      case 'ArrowRight':
-        getNextHorizonElem(1);
-        break;
-      default:
-        break;
+    if (currentElem === -1) {
+      currentElem = 0;
+      currentElemAmongEnabled = 0;
+    } else {
+      switch (event.code) {
+        case 'ArrowDown':
+          getNextVerticalElem(1);
+          break;
+        case 'ArrowUp':
+          getNextVerticalElem(-1);
+          break;
+        case 'ArrowLeft':
+          getNextHorizonElem(-1);
+          break;
+        case 'ArrowRight':
+          getNextHorizonElem(1);
+          break;
+        default:
+          break;
+      }
     }
 
     btnList[currentElem].focus();
