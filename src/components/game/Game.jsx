@@ -14,7 +14,7 @@ import {
   PAUSE_TIME,
   READY,
   LOADED,
-  COUNTDOWN_END, COUNTDOWN, FINISH, ACTIVITY, LIST_LEN,
+  COUNTDOWN_END, COUNTDOWN, FINISH, ACTIVITY, LIST_LEN, LOADING,
 } from "../../constants";
 import {changeEnabledBtnList, setRemoteControllerConfig} from "../../functions";
 
@@ -83,7 +83,7 @@ export function Game(props) {
       setRemoteControllerConfig(LIST_LEN[level]);
     } else if (gameStep === READY) {
       changeEnabledBtnList();
-    } else if (gameStep === LOADED || gameStep === FINISH) {
+    } else if (gameStep === LOADING || gameStep === FINISH) {
       setRemoteControllerConfig();
     }
 
