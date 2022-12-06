@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <title>Spinner</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      position: absolute;
+
+      width: 100vw;
+      height: 100vh;
+    }
+    .spinner {
+      display: inline-block;
+      width: 8vmin;
+      height: 8vmin;
+
+      position: relative;
+      top: calc(50% - 4vmin);
+      left: calc(50% - 4vmin);
+
+      border-radius: 50%;
+      border: solid 1.5vmin rgba(9, 229, 151, 0.8);
+      border-top: solid 1.5vmin rgba(126, 98, 243, 0.8);
+      border-bottom: solid 1.5vmin rgba(126, 98, 243, 0.8);
+      animation: spin 2s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="spinner"></div>
+</body>
+</html>
