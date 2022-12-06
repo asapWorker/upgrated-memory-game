@@ -10,6 +10,8 @@
     * {
       margin: 0;
       padding: 0;
+
+      box-sizing: border-box;
     }
     body {
       position: absolute;
@@ -19,17 +21,17 @@
     }
     .spinner {
       display: inline-block;
-      width: 8vmin;
-      height: 8vmin;
+      width: 70vmin;
+      height: 70vmin;
 
       position: relative;
-      top: calc(50% - 4vmin);
-      left: calc(50% - 4vmin);
+      top: calc(50% - 35vmin);
+      left: calc(50% - 35vmin);
 
       border-radius: 50%;
-      border: solid 1.5vmin rgba(9, 229, 151, 0.8);
-      border-top: solid 1.5vmin rgba(126, 98, 243, 0.8);
-      border-bottom: solid 1.5vmin rgba(126, 98, 243, 0.8);
+      border: solid 8vmin rgba(9, 229, 151, 0.8);
+      border-top: solid 8vmin rgba(126, 98, 243, 0.8);
+      border-bottom: solid 8vmin rgba(126, 98, 243, 0.8);
       animation: spin 2s linear infinite;
     }
 
@@ -40,6 +42,6 @@
   </style>
 </head>
 <body>
-  <div class="spinner"></div>
+  <div id="spinner" class="spinner"></div>
 </body>
 </html>
