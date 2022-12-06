@@ -57,6 +57,10 @@
   opacity: 1;
 }
 
+.img-btn.disabled-focus:disabled {
+  border: solid calc(max(0.5vmin, 2px)) #ffffff;
+}
+
 .item.correct .img-btn {
   background-color: #579b77;
 }
