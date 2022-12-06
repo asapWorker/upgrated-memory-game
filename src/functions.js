@@ -86,6 +86,7 @@ const remoteControllerDecorator = function() {
   let enabledBtnList = [];
   let currentElem = -1;
   let currentElemAmongEnabled = -1;
+  let disabledFocusedElem = null;
 
   let boardBtnNum = 0;
   let rows = undefined;
@@ -102,7 +103,8 @@ const remoteControllerDecorator = function() {
   }
 
 
-  const setRemoteControllerConfig = function(boardItemsNum = 0) {
+  const setRemoteControllerConfig = function(lastIsDisabled = false, boardItemsNum = 0) {
+    disabledFocusedElem = null;
     btnList = [];
     if (boardItemsNum) {
       [rows, cols] = considerRowsColsCount(boardItemsNum, screenOrientation);
@@ -113,46 +115,32 @@ const remoteControllerDecorator = function() {
     boardBtnNum = boardItemsNum;
     btnList.push(...document.querySelectorAll('.managing-btn'));
 
-    if (currentElem >= 0) {
-      currentElem = 0;
-      currentElemAmongEnabled = 0;
-      btnList[currentElem].focus();
-    } else {
-      currentElem = -1;
-    }
+    currentElem = -1;
+    currentElemAmongEnabled = -1;
 
-    changeEnabledBtnList();
+    enabledBtnList = new Array(btnList.length).fill(0);
+    if (lastIsDisabled) enabledBtnList.pop();
+    enabledBtnList = enabledBtnList.map((_, index) => index);
 
     document.addEventListener('keydown', moveHandler);
   }
 
-  const changeEnabledBtnList = function() {
-    enabledBtnList = [];
-    for (let i = 0; i < btnList.length; i++) {
-      if (!btnList[i].disabled) enabledBtnList.push(i);
-    }
-    currentElemAmongEnabled = (currentElem === -1) ? -1 : enabledBtnList.indexOf(currentElem);
+  const addLastBtnInEnabledBtnList = function() {
+    enabledBtnList.push(btnList.length - 1);
   }
 
   const checkBoardBtn = function(btnInd) {
-    if (currentElem === -1) return;
+    if (btnList[disabledFocusedElem]) removeFocusFromDisabledBtn();
 
-    let btnIndInEnabledList = enabledBtnList.indexOf(btnInd);
-    enabledBtnList.splice(btnIndInEnabledList, 1);
+    currentElem = btnInd;
+    currentElemAmongEnabled = enabledBtnList.indexOf(btnInd);
 
-    if (enabledBtnList.length === 3) {
-      currentElemAmongEnabled = 2;
-    } else if (enabledBtnList[btnIndInEnabledList] === boardBtnNum) {
-        currentElemAmongEnabled = btnIndInEnabledList - 1;
-    } else {
-      currentElemAmongEnabled = btnIndInEnabledList;
-    }
-    currentElem = enabledBtnList[currentElemAmongEnabled];
-
-    btnList[currentElem].focus();
+    disabledFocusedElem = btnInd;
+    btnList[disabledFocusedElem].classList.add('disabled-focus');
   }
 
   const moveHandler = function(event) {
+
     if (currentElem === -1) {
       currentElem = 0;
       currentElemAmongEnabled = 0;
@@ -175,9 +163,17 @@ const remoteControllerDecorator = function() {
       }
     }
 
-    btnList[currentElem].focus();
+    if (!btnList[disabledFocusedElem]) btnList[currentElem].focus();
   }
 
+  function removeFocusFromDisabledBtn() {
+    btnList[disabledFocusedElem].classList.remove('disabled-focus');
+    enabledBtnList.splice(enabledBtnList.indexOf(disabledFocusedElem), 1);
+
+    currentElemAmongEnabled = enabledBtnList.indexOf(currentElem);
+
+    disabledFocusedElem = null;
+  }
 
   const getNextHorizonElem = function(direction) {
     let nextElemAmongEnabled = currentElemAmongEnabled + direction;
@@ -190,6 +186,8 @@ const remoteControllerDecorator = function() {
 
     currentElemAmongEnabled = nextElemAmongEnabled;
     currentElem = enabledBtnList[currentElemAmongEnabled];
+
+    if (btnList[disabledFocusedElem]) removeFocusFromDisabledBtn();
   }
 
   const getNextVerticalElem = function(direction) {
@@ -214,10 +212,12 @@ const remoteControllerDecorator = function() {
     if (nextElem >= 0 && nextElem !== currentElem) {
       currentElem = nextElem;
       currentElemAmongEnabled = enabledBtnList.indexOf(currentElem);
+
+      if (btnList[disabledFocusedElem]) removeFocusFromDisabledBtn();
     }
   }
 
-  return [setRemoteControllerConfig, changeEnabledBtnList, checkBoardBtn, orientationChangeHandler];
+  return [setRemoteControllerConfig, addLastBtnInEnabledBtnList, checkBoardBtn, orientationChangeHandler];
 }
 
 
@@ -240,4 +240,4 @@ const considerRowsColsCount = function (itemsNum, screenOrientation) {
   return [rows, cols];
 }
 
-export const [setRemoteControllerConfig, changeEnabledBtnList, checkBoardBtn, orientationChangeHandler] = remoteControllerDecorator();
+export const [setRemoteControllerConfig, addLastBtnInEnabledBtnList, checkBoardBtn, orientationChangeHandler] = remoteControllerDecorator();
