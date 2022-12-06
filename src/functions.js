@@ -130,6 +130,7 @@ const remoteControllerDecorator = function() {
   }
 
   const checkBoardBtn = function(btnInd) {
+    if (currentElem >= 0 && btnList[currentElem].focused) btnList[currentElem].blur();
     if (btnList[disabledFocusedElem]) removeFocusFromDisabledBtn();
 
     currentElem = btnInd;
