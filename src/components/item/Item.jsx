@@ -8,7 +8,7 @@ import {
   WRONG,
   LOADING,
   PATH,
-  READY
+  READY, LOADED, COUNTDOWN, CHOOSE_ITEM, assistant, NO_ITEM
 } from "../../constants";
 import {changeResult, setReady} from "../../store/gameSlice";
 import {checkBoardBtn} from "../../functions";
@@ -18,18 +18,11 @@ export function Item(props) {
 
   const level = useSelector(state => state.game.level);
   const gameStep = useSelector(state => state.game.step);
+  const prevGameStep = useSelector(state => state.game.prevStep);
+
+  const assistantData = useSelector(state => state.assistant.data);
 
   const dispatch = useDispatch();
-
-  function itemChoosingHandler() {
-    if (props.isRepeated) {
-      setItemMark(CORRECT);
-    } else {
-      setItemMark(WRONG);
-    }
-
-    checkBoardBtn(props.imgInd - 1);
-  }
 
   useEffect(() => {
     setItemMark(UNMARKED);
@@ -44,9 +37,23 @@ export function Item(props) {
     }
   }, [itemMark])
 
+  useEffect(() => {
+    if (assistantData.type === CHOOSE_ITEM) {
+      const num = Number(assistantData.payload);
+      if (num === props.imgInd) {
+        if (itemMark === UNMARKED) {
+          itemChoosingHandler();
+        }
+        else {
+          assistant.ref.sendData({action: {action_id: NO_ITEM}});
+        }
+      }
+    }
+  }, [assistantData])
+
   return (
     <div className={'item level-' + level + ' ' + itemMark}>
-      {(gameStep === LOADING) && <div className={'img-wrapper'}/>}
+      {(gameStep === LOADING || gameStep === LOADED || (gameStep === COUNTDOWN && prevGameStep === LOADED)) && <div className={'img-wrapper'}/>}
 
       {
         (gameStep === ACTIVITY || gameStep === READY) &&
@@ -71,4 +78,16 @@ export function Item(props) {
 
     </div>
   )
+
+  function itemChoosingHandler() {
+    assistant.ref.sendData({action: {action_id: CHOOSE_ITEM}});
+
+    if (props.isRepeated) {
+      setItemMark(CORRECT);
+    } else {
+      setItemMark(WRONG);
+    }
+
+    checkBoardBtn(props.imgInd - 1);
+  }
 }

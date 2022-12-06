@@ -14,9 +14,19 @@ import {
   PAUSE_TIME,
   READY,
   LOADED,
-  COUNTDOWN_END, COUNTDOWN, FINISH, ACTIVITY, LIST_LEN, LOADING,
+  COUNTDOWN_END,
+  FINISH,
+  ACTIVITY,
+  LIST_LEN,
+  LOADING,
+  RESTART_GAME,
+  SHOW_MENU,
+  FINISH_GAME,
+  assistant,
+  START_GAME,
+  PERMIT_CHOOSING, DENY_FINISHING, CHOOSE_ITEM, NO_ITEM,
 } from "../../constants";
-import {changeEnabledBtnList, setRemoteControllerConfig} from "../../functions";
+import {addLastBtnInEnabledBtnList, setRemoteControllerConfig} from "../../functions";
 
 // id for setTimeout in game
 let gameTimerId = null;
@@ -35,8 +45,10 @@ export function Game(props) {
   const gameId = useSelector(state => state.game.gameId);
   const gameStep = useSelector(state => state.game.step);
   const level = useSelector(state => state.game.level);
+  const result = useSelector(state => state.game.result);
+  const prevGameStep = useSelector(state => state.game.prevStep);
 
-  const prevGameStep = useRef(undefined);
+  const assistantData = useSelector(state => state.assistant.data);
 
   const dispatch = useDispatch();
 
@@ -53,19 +65,17 @@ export function Game(props) {
   }, [])
 
   useEffect(() => {
-    changeDisabledStatusOfButtons(false);
     resultBtn.current.disabled = true;
 
     return () => {
       if (gameTimerId) clearTimeout(gameTimerId);
-      prevGameStep.current = undefined;
     }
   }, [gameId])
 
   useEffect(() => {
     // retrieve next gameStep
     if (gameStep === COUNTDOWN_END) {
-      if (prevGameStep.current === LOADED) {
+      if (prevGameStep === LOADED) {
         dispatch(pause());
       } else {
         dispatch(startActivity());
@@ -76,48 +86,61 @@ export function Game(props) {
       resultBtn.current.disabled = true;
     }
 
-    if (gameStep !== COUNTDOWN) prevGameStep.current = gameStep;
-
     // set remote controller configs for managing
     if (gameStep === ACTIVITY) {
-      setRemoteControllerConfig(LIST_LEN[level]);
+      assistant.ref.sendData({action: {action_id: PERMIT_CHOOSING}})
+
+      setRemoteControllerConfig(true, LIST_LEN[level]);
     } else if (gameStep === READY) {
-      changeEnabledBtnList();
+      addLastBtnInEnabledBtnList();
     } else if (gameStep === LOADING || gameStep === FINISH) {
-      setRemoteControllerConfig();
+      setRemoteControllerConfig(true);
     }
 
-    console.log(gameStep);
   }, [gameStep])
 
+
+  useEffect(() => {
+    if (assistantData.type === RESTART_GAME) {
+      restartHandler();
+    } else if (assistantData.type === SHOW_MENU) {
+      menuHandler();
+    } else if (assistantData.type === FINISH_GAME) {
+      if (gameStep === READY) {
+        resultHandler();
+      } else {
+        assistant.ref.sendData({action: {action_id: DENY_FINISHING}});
+      }
+    } else if (assistantData.type === CHOOSE_ITEM) {
+      const num = Number(assistantData.payload);
+      if (num <= 0 || num > LIST_LEN[level]) assistantData.sendData({action: {action_id: NO_ITEM}});
+    }
+  }, [assistantData])
 
   return (
     <div className="game">
       <Wrapper/>
       <Board/>
       <div className="bottom-interface">
-        <button ref={restartBtn} className="btn game-btn managing-btn" onClick={restartBtnClickHandler}>Заново</button>
-        <button ref={menuBtn} className="btn game-btn managing-btn" onClick={menuBtnClickHandler}>Меню</button>
-        <button ref={resultBtn} className="btn game-btn managing-btn" onClick={resultBtnClickHandler}>Готово</button>
+        <button ref={restartBtn} className="btn game-btn managing-btn" onClick={restartHandler}>Заново</button>
+        <button ref={menuBtn} className="btn game-btn managing-btn" onClick={menuHandler}>Меню</button>
+        <button ref={resultBtn} className="btn game-btn managing-btn" onClick={resultHandler}>Готово</button>
       </div>
     </div>
   )
 
-  function menuBtnClickHandler() {
-    changeDisabledStatusOfButtons(true);
+  function menuHandler() {
+    assistant.ref.sendData({ action: { action_id: SHOW_MENU}});
     props.changeAppScreen();
   }
 
-  function restartBtnClickHandler(event) {
-    changeDisabledStatusOfButtons(true);
+  function restartHandler(event) {
+    assistant.ref.sendData({ action: { action_id: RESTART_GAME}});
     dispatch(restartGame());
   }
 
-  function resultBtnClickHandler() {
+  function resultHandler() {
+    assistant.ref.sendData({action: {action_id: FINISH_GAME, payload: result}});
     dispatch(finishGame());
-  }
-
-  function changeDisabledStatusOfButtons(disabled) {
-    restartBtn.current.disabled = menuBtn.current.disabled = restartBtn.current.disabled= disabled;
   }
 }
