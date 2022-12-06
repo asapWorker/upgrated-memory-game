@@ -13,6 +13,7 @@ import {
   VISIBLE
 } from "../../constants";
 import {finishCountdown, makeCountdown} from "../../store/gameSlice";
+import * as PATH from "path";
 
 // id for setTimeout
 let wrapperTimerId = null;
@@ -62,7 +63,7 @@ export function Wrapper() {
 
   function generateContent() {
     if (gameStep === LOADING || gameStep === LOADED) {
-      return 'Loading...';
+      return <iframe src={process.env.PUBLIC_URL + '/spinner.html'}></iframe>
     } else if (gameStep === COUNTDOWN || gameStep === COUNTDOWN_END) {
       return <span className='countdown'>{(countdownStep === -1) ? 3 : countdownStep}</span>;
     } else if (gameStep === FINISH) {

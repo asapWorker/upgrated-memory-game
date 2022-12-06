@@ -16,6 +16,10 @@
   display: none;
 }
 
+/* iframe */
+iframe {
+  height: 25vh;
+}
 
 /* content */
 .content {

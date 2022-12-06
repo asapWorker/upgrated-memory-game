@@ -5,9 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="stylesheet" href="style.css">
     <title>React App</title>
+    <style>
+      .spinner-container {
+        position: absolute;
+
+        width: 100vw;
+        height: 100vh;
+      }
+
+      iframe {
+        border: none;
+      }
+
+      .root-spinner {
+        position: relative;
+        top: 50%;
+        left: 50%;
+
+        transform: translate(-50%, -50%);
+      }
+    </style>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div class="app-container" id="root"></div>
+    <div class="app-container" id="root">
+      <div class="spinner-container">
+        <iframe class="root-spinner" src='./spinner.html'></iframe>
+      </div>
+    </div>
   </body>
 </html>
