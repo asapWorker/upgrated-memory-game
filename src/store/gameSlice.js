@@ -19,6 +19,8 @@ const gameSlice = createSlice({
     level: null,
     gameId: null,
     step: LOADING,
+
+    prevStep: undefined
   },
 
   reducers: {
@@ -26,11 +28,15 @@ const gameSlice = createSlice({
       state.level = action.payload;
       state.gameId = Date.now();
       state.step = LOADING;
+
+      state.prevStep = undefined;
     },
 
     restartGame(state) {
       state.gameId = Date.now();
       state.step = LOADING;
+
+      state.prevStep = undefined;
     },
 
     finishLoading(state) {
@@ -38,6 +44,7 @@ const gameSlice = createSlice({
     },
 
     makePause(state) {
+      state.prevStep = state.step;
       state.step = PAUSE;
     },
 
@@ -46,6 +53,7 @@ const gameSlice = createSlice({
     },
 
     makeCountdown(state) {
+      state.prevStep = state.step;
       state.step = COUNTDOWN;
     },
 
@@ -54,6 +62,7 @@ const gameSlice = createSlice({
     },
 
     startActivity(state) {
+      state.prevStep = state.step;
       state.step = ACTIVITY;
     },
 
@@ -75,7 +84,7 @@ const gameSlice = createSlice({
       } else {
         state.result -= 1;
       }
-    }
+    },
   }
 })
 
