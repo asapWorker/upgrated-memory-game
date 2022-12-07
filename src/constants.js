@@ -41,13 +41,16 @@ export const LIST_LEN = {
   [HARD]: 20
 }
 
-// difference between same images and others depends on level
-export const DEL = {
-  [EASY]: 5,
-  [MIDDLE]: 3,
-  [HARD]: 1
-}
+// similar images edges in images list
+export const SIMILAR_IMG_START = 1;
+export const SIMILAR_IMG_END = 10;
 
+// similar images count
+export const SIMILAR_NUM = {
+  [EASY]: 0,
+  [MIDDLE]: 4,
+  [HARD]: 9,
+}
 
 // screen orientation
 export const PORTRAIT = 'portrait-primary';
@@ -55,7 +58,7 @@ export const LANDSCAPE = 'landscape-primary';
 
 
 // Sber token
-export const token = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZTFmNTQxODM0NzEwNjkyNzAzM2QwYTQ0ODFmMTNkNTJiMTA1N2NhMWNkY2I0OTg0ZGNiMWQxZjQzMzdhMzYyNTM5YmU5MjcwMDQyNjI5OCIsImF1ZCI6IlZQUyIsImV4cCI6MTY3MDMxNjMxNCwiaWF0IjoxNjcwMjI5OTA0LCJpc3MiOiJLRVlNQVNURVIiLCJ0eXBlIjoiQmVhcmVyIiwianRpIjoiNzgyMGNiOWEtYWFiZC00NzAzLWFhZTItNDM5M2Y4ODEwMDNjIiwic2lkIjoiZDQ2NTE0OGQtY2I2Mi00NjA4LWE5MDMtN2YwOTRlNTUyOGI3In0.cZkWBdmkc4nCzoC5TR0B1VF3w37m78N0FnIm2GRqYjTf9XqL4ENMD7VjPy_VG_J5elhC6S5xxSR7xHjVpzHa7JPMZFGQyQBLPgE88DNlSvI7-gMmK_mvnevyUqOyvd01UEyD4CIxV_AXC4uCM9Z9-ZO8q7-YdNMUVqa6DLBtHutjpMFikC337PCSpJdlNGXVAt3H5UZk7L6J8L2EZpNd7jd054hagaM1VZ41UXTNvDaol-MVAR1i8c4iQNKABZXTXBuG8c_GgjWTIdyS5DhxaMR6VHP9_2OrwxEdNt7yQWuvNPaWCvkSD1jBzeV8d-eGCnQhvN2gf23T0xkre5Av1Y6srQehd1D9WgrSzXbn4J2nGlk4WdrGgAlUT71kPNGQqHtMUTGEyZnesaTrGi45Wx5s5JLUd9RuQ_qzA2TK-T-O9VBy4xTqPG9dgGK6r43wYzpc0vMa8l0mtBALxBgdDcRnF-tz68e1b_qFGpC4XJh_QSfxzWFQMgU5wwNmLgvG-n5R8CEZs-wSnSC_az5xHPnV-xVJxYkiIQK1ifd_9f1P4CwAbeMmMkgk6cd--ixtPXHmJCb3d2yd3DiH7OwMRooeEM0u1Z0UZhRjVu3wPEmMostDLg_wikxKIJ9jR_wihLbIbAqFMUZZz-IotjL0V-mkYRD0onJXqnPstfydX6A';
+export const token = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZTFmNTQxODM0NzEwNjkyNzAzM2QwYTQ0ODFmMTNkNTJiMTA1N2NhMWNkY2I0OTg0ZGNiMWQxZjQzMzdhMzYyNTM5YmU5MjcwMDQyNjI5OCIsImF1ZCI6IlZQUyIsImV4cCI6MTY3MDQwNDY1NywiaWF0IjoxNjcwMzE4MjQ3LCJpc3MiOiJLRVlNQVNURVIiLCJ0eXBlIjoiQmVhcmVyIiwianRpIjoiOTc5NjllOGMtZWI4NS00MjJhLWFmNTctN2M1MDg4OGY5NTFkIiwic2lkIjoiMTgzMGRmYTYtOTIzYy00MWExLWJlM2UtNjJhNDgyZTE2MDczIn0.P7czS8i3qqAk3gU9FFbwvMN0-IQg-mHWe5Zq3pUuvwKIaNssxYxKNrMPs6u5UDE3L6oPycKDi-2JB8hHIPqP49WSOvQ790e_vqyfFVsfxYw-f3Kx8JIa9iXzHZwlaTE5ZtCUA6N791Mt8wgRCS4q8yxY0gZumizYKlN0-LuyKfto3R9xTYmrCNomkzvMzFc_In9181pdOi5hX0QCLIF_DRIKdZRU6gmdPjgVCaenMHyErBhQLI4zcoRWDPcey1iawVWbd2mgeDglcqZL6n49eOheq6HKYqwIrPzvMNmc0I4jzqJfy9_mBBbraw-iVGJx1TbDp8Okq2ABO_JeIXcQlgX0lHGWcOW0MAPRAKLUbqrnsBpvE_U4OAWc2REaGyNgHZboZ0Xj2xPyiaDq6NT6Zh8q44bI8cs5U47eoV4cSiCC3-YTmqTjwYbWdvV-sWQK0ZPI3GY1t5t-MZp4P7dptT15byroa_bJqSX86stCLGx2k8lqJ9WQcjMDhB1OGbWCjCVhHTHgHm6vWLJnxJeC1d6gDNc8HVu9mbUwz7YqYmtkitmWXoPs-BC7bSNscG9bVTUS7IqfRfQzDZnN9q0RJ3OdfffxyIbM0TNCPEwsAC1NLoqkwlR4DujSDCekQbM9R8cr7RkQwD6sUNUcfIB3s9mGSb5FeChRWJBUCF396M4';
 
 // client commands
 export const SHOW_MENU = 'show-menu';
@@ -69,4 +72,4 @@ export const NO_ITEM = 'no-item'
 
 
 // variable for assistant object
-export const assistant = {};
+export const assistant = {ref: null};
