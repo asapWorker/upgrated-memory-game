@@ -8,7 +8,7 @@ import {
   WRONG,
   LOADING,
   PATH,
-  READY, LOADED, COUNTDOWN, CHOOSE_ITEM, assistant, NO_ITEM
+  READY, LOADED, COUNTDOWN, CHOOSE_ITEM, assistant, NO_ITEM, FINISH
 } from "../../constants";
 import {changeResult, setReady} from "../../store/gameSlice";
 import {checkBoardBtn} from "../../functions";
@@ -54,6 +54,8 @@ export function Item(props) {
   return (
     <div className={'item level-' + level + ' ' + itemMark}>
       {(gameStep === LOADING || gameStep === LOADED || (gameStep === COUNTDOWN && prevGameStep === LOADED)) && <div className={'img-wrapper'}/>}
+
+      {(gameStep === FINISH && itemMark !== UNMARKED) && <div className={'img-wrapper finish-step ' + itemMark}/>}
 
       {
         (gameStep === ACTIVITY || gameStep === READY) &&

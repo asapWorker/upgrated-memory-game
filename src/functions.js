@@ -1,4 +1,19 @@
-import {DEL, EASY, GENERAL, LIST_LEN, MIDDLE, PORTRAIT} from "./constants";
+import {
+  EASY,
+  GENERAL,
+  LIST_LEN,
+  MIDDLE,
+  PORTRAIT,
+  SIMILAR_IMG_END,
+  SIMILAR_IMG_START,
+  SIMILAR_NUM
+} from "./constants";
+
+export const getPercentageResult = function(result, level) {
+  const percentageResult = Math.round(result / LIST_LEN[level] * 100);
+
+  return percentageResult;
+}
 
 export const random = function (start, end) {
   return Math.floor(Math.random() * (end - start + 1)) + start;
@@ -10,9 +25,10 @@ export const random = function (start, end) {
 ------------------------------------------------------*/
 export const generateList = function(level) {
   const listLength = LIST_LEN[level];
-  const del = DEL[level];
   const sameNum = generateSameItemsNum(level);
-  const repeatedItem = random(1, GENERAL);
+
+  const repeatedItem = random(SIMILAR_IMG_START, SIMILAR_IMG_END);
+
   const list = new Array(listLength).fill(null);
   const sameIndexes = randomSeveral(0, listLength - 1, sameNum);
 
@@ -20,13 +36,26 @@ export const generateList = function(level) {
     list[ind] = repeatedItem;
   }
 
-  let anotherItem = repeatedItem + del;
+  const similarIndexes = randomSeveral(0, listLength - sameNum - 1, SIMILAR_NUM[level]);
 
+  let similarInd = 0;
+  let similarItem = repeatedItem;
+  let otherItem = SIMILAR_IMG_END + 1;
   for (let i = 0; i < listLength; i++) {
     if (!list[i]) {
-      const currentItem = anotherItem % GENERAL;
-      list[i] = (currentItem === 0) ? 20 : currentItem;
-      anotherItem++;
+      if (similarIndexes.includes(similarInd)) {
+        similarItem += 1;
+        if (similarItem > SIMILAR_IMG_END) similarItem = 1;
+
+        list[i] = similarItem;
+      } else {
+        list[i] = otherItem;
+
+        otherItem += 1;
+        if (otherItem > GENERAL) otherItem = SIMILAR_IMG_END + 1;
+      }
+
+      similarInd++;
     }
   }
   return {
@@ -54,9 +83,9 @@ const generateSameItemsNum = function(level) {
   if (level === EASY) {
     return random(3, 5)
   } else if (level === MIDDLE) {
-    return random(4, 6)
+    return random(6, 7)
   } else {
-    return random(3, 5)
+    return random(5, 6)
   }
 }
 

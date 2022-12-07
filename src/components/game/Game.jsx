@@ -23,10 +23,9 @@ import {
   SHOW_MENU,
   FINISH_GAME,
   assistant,
-  START_GAME,
   PERMIT_CHOOSING, DENY_FINISHING, CHOOSE_ITEM, NO_ITEM,
 } from "../../constants";
-import {addLastBtnInEnabledBtnList, setRemoteControllerConfig} from "../../functions";
+import {addLastBtnInEnabledBtnList, getPercentageResult, setRemoteControllerConfig} from "../../functions";
 
 // id for setTimeout in game
 let gameTimerId = null;
@@ -140,7 +139,7 @@ export function Game(props) {
   }
 
   function resultHandler() {
-    assistant.ref.sendData({action: {action_id: FINISH_GAME, payload: result}});
+    assistant.ref.sendData({action: {action_id: FINISH_GAME, payload: getPercentageResult(result, level)}});
     dispatch(finishGame());
   }
 }

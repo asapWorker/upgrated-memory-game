@@ -7,13 +7,12 @@ import {
   COUNTDOWN_NUM,
   FINISH,
   INVISIBLE,
-  LIST_LEN,
   LOADED,
   LOADING, PAUSE_END,
   VISIBLE
 } from "../../constants";
 import {finishCountdown, makeCountdown} from "../../store/gameSlice";
-import * as PATH from "path";
+import {getPercentageResult} from "../../functions";
 
 // id for setTimeout
 let wrapperTimerId = null;
@@ -63,13 +62,13 @@ export function Wrapper() {
 
   function generateContent() {
     if (gameStep === LOADING || gameStep === LOADED) {
-      return <iframe src={process.env.PUBLIC_URL + '/spinner.html'}></iframe>
+      return <iframe title='spinner' src={process.env.PUBLIC_URL + '/spinner.html'}></iframe>
     } else if (gameStep === COUNTDOWN || gameStep === COUNTDOWN_END) {
       return <span className='countdown'>{(countdownStep === -1) ? 3 : countdownStep}</span>;
     } else if (gameStep === FINISH) {
       return <>
         <span className='result-label'>Результат</span>
-        <span className='result'>{`${result} из ${LIST_LEN[level]}`}</span>
+        <span className='result'>{`${getPercentageResult(result, level)}%`}</span>
       </>
     } else {
       return null;

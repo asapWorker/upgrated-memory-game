@@ -33,6 +33,19 @@
   background-color: #6d85af;
 }
 
+/* wrapper for checked items on result step */
+.img-wrapper.finish-step {
+  opacity: 0.3;
+}
+
+.img-wrapper.finish-step.correct {
+  background-color: #02fa75;
+}
+
+.img-wrapper.finish-step.wrong {
+  background-color: #ff0049;
+}
+
 /* img */
 .img {
   height: 100%;
