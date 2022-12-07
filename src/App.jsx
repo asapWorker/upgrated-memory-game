@@ -3,7 +3,7 @@ import {Menu} from "./components/menu/Menu";
 import {Game} from "./components/game/Game";
 import {orientationChangeHandler} from "./functions";
 
-import { createAssistant, createSmartappDebugger } from '@salutejs/client'
+import { createAssistant, createSmartappDebugger } from '@sberdevices/assistant-client'
 import {assistant, token} from "./constants";
 import {useDispatch} from "react-redux";
 import {changeAssistantData} from "./store/assistantSlice";
@@ -13,7 +13,7 @@ const initializeAssistant = (getState) => {
   if (process.env.NODE_ENV === 'development') {
     return createSmartappDebugger({
       token: token,
-      initPhrase: 'Запусти тренажер памяти',
+      initPhrase: 'Запусти смайлики',
       getState
     });
   }

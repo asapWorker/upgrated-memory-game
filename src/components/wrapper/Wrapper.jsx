@@ -27,7 +27,6 @@ export function Wrapper() {
     return () => {
       if (wrapperTimerId) clearTimeout(wrapperTimerId);
       setCountdownStep(-1);
-      console.log('restart');
     }
   }, [gameId])
 
