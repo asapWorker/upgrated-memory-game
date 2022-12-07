@@ -13,7 +13,7 @@ const initializeAssistant = (getState) => {
   if (process.env.NODE_ENV === 'development') {
     return createSmartappDebugger({
       token: token,
-      initPhrase: 'Запусти смайлики',
+      initPhrase: 'Запусти тренажер памяти',
       getState
     });
   }
