@@ -1,3 +1,6 @@
+// Sber token
+export const token = '<ваш токен>';
+
 // images folder path
 export const PATH = process.env.PUBLIC_URL + "/images/";
 
@@ -55,10 +58,6 @@ export const SIMILAR_NUM = {
 // screen orientation
 export const PORTRAIT = 'portrait-primary';
 export const LANDSCAPE = 'landscape-primary';
-
-
-// Sber token
-export const token = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZTFmNTQxODM0NzEwNjkyNzAzM2QwYTQ0ODFmMTNkNTJiMTA1N2NhMWNkY2I0OTg0ZGNiMWQxZjQzMzdhMzYyNTM5YmU5MjcwMDQyNjI5OCIsImF1ZCI6IlZQUyIsImV4cCI6MTY3MDUxMTM4NCwiaWF0IjoxNjcwNDI0OTc0LCJpc3MiOiJLRVlNQVNURVIiLCJ0eXBlIjoiQmVhcmVyIiwianRpIjoiNTNkMDA4NzAtMTZhNy00MjQyLTg4MzktNjMyMGQzODA4Yjk0Iiwic2lkIjoiMWYwNjkwNTUtMzNmZi00ZGFmLWE5MWYtZDhlOGZhNmUxOWQ4In0.qRT--TsevE-fm_sfKDWlJgNJ3dY9kMgEqlMRp75i57vKCrBTgQ32_ur99__FofnhurGvggmEJ3qxl4XXXEMD-6HEmXJQW3QKqaOL7LdMhJNw8K9JHmDKnrwENL_OsADgemfJunDELH1Cllh5c9WrBdh9GVSda9NWElhkfooIoWlH-3jRrh7Klo20UR74bDHa4Fm1vyPt_N-bwsRTlPJPNN7DfTkMgpLvpQIfQ44IM7PcEqIscZTr0E_7dU2CznpIKwL6Ra1Ls2aglFhx5yIyv7XRTSyUIfjneZDRLxY3eDHRFeTc9veasN4SVxIxAJuz3nKXOSs8gf2cwvz6pfVqqlPJmhWFMR5r5aX9pUHy4zyHwDCfFABriFZmgY61P8NZ0-v2x8vK68BgxDs_89FaahPABH_bMgTFqtBkLhfXV_xIbD9K5Qd9j7tiDEToKCYkePvfPhHTNsQlHWej4P2K97u3AFNoOeUrVuEVNhUa7AA8eIgy3tnGbczoW1FxftmxD_tn7Hh8GkQqFPCes-yIqrIprlsesJBDI5Nj01BC-5QsWyNP9FoYj1IpW27goUH1VOwnMMZcgIbWzUtHr1eBUN-LL_dgablgzzh8zo2Ei4Lx3uFfedPEwe7UwWypWixFUHMFj3rWEHYkiM3fbWqiB77YOb-V_9cBAhNr4k0Zh9k';
 
 // client commands
 export const SHOW_MENU = 'show-menu';
