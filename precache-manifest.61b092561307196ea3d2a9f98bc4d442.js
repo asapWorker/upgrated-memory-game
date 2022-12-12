@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "6c28bf5836d0acd9ef5a",
+    "revision": "916dc526d4990af2bd51",
     "url": "/updated-memory-game/static/css/main.576728e3.chunk.css"
   },
   {
-    "revision": "6c28bf5836d0acd9ef5a",
-    "url": "/updated-memory-game/static/js/main.6c28bf58.chunk.js"
+    "revision": "916dc526d4990af2bd51",
+    "url": "/updated-memory-game/static/js/main.916dc526.chunk.js"
   },
   {
     "revision": "7eaa5f31b37c3ab4a63d",
@@ -16,7 +16,7 @@ self.__precacheManifest = [
     "url": "/updated-memory-game/static/js/runtime~main.c9033da5.js"
   },
   {
-    "revision": "d16342def0a346162111fb4b400e212f",
+    "revision": "4251eedf957e85e388c05e8c861866e1",
     "url": "/updated-memory-game/index.html"
   }
 ];
