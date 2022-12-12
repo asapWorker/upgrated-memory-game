@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/upgrated-memory-game/precache-manifest.8336bcab50ff2373e5d83cd4c19cb4e6.js"
+  "/upgrated-memory-game/precache-manifest.a796fdf766832ca75b9625ba9a9706f1.js"
 );
 
 workbox.clientsClaim();

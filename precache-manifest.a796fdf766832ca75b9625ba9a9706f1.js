@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "49a26f733c2ce3f383ff",
-    "url": "/upgrated-memory-game/static/css/main.fc4066bf.chunk.css"
+    "revision": "a90c458c4c98aa8f8cad",
+    "url": "/upgrated-memory-game/static/css/main.576728e3.chunk.css"
   },
   {
-    "revision": "49a26f733c2ce3f383ff",
-    "url": "/upgrated-memory-game/static/js/main.49a26f73.chunk.js"
+    "revision": "a90c458c4c98aa8f8cad",
+    "url": "/upgrated-memory-game/static/js/main.a90c458c.chunk.js"
   },
   {
     "revision": "7eaa5f31b37c3ab4a63d",
@@ -16,7 +16,7 @@ self.__precacheManifest = [
     "url": "/upgrated-memory-game/static/js/runtime~main.1b7a8fea.js"
   },
   {
-    "revision": "cae445df6f709d2af4b095928d0e24a8",
+    "revision": "a3d96dd41a418609f9f670b045a15576",
     "url": "/upgrated-memory-game/index.html"
   }
 ];
