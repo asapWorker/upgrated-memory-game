@@ -133,6 +133,10 @@ const remoteControllerDecorator = function() {
 
 
   const setRemoteControllerConfig = function(lastIsDisabled = false, boardItemsNum = 0) {
+    if (currentElem >= 0 && btnList[currentElem]) {
+      btnList[currentElem].blur();
+    }
+
     disabledFocusedElem = null;
     btnList = [];
     if (boardItemsNum) {
@@ -227,10 +231,6 @@ const remoteControllerDecorator = function() {
     } else if (currentElem >= boardBtnNum) {
       getNextHorizonElem(direction);
       return;
-    } else if (currentElem > boardBtnNum - cols && currentElem < boardBtnNum && direction === 1) {
-      currentElem = boardBtnNum;
-      currentElemAmongEnabled = enabledBtnList.indexOf(currentElem);
-      return;
     }
 
     let nextElem = currentElem;
@@ -239,12 +239,15 @@ const remoteControllerDecorator = function() {
       nextElem += cols * direction;
     } while ((nextElem >= 0 && nextElem < boardBtnNum) && !enabledBtnList.includes(nextElem))
 
-    if (nextElem >= 0 && nextElem !== currentElem) {
+    if (nextElem >= boardBtnNum) {
+      currentElem = boardBtnNum;
+      currentElemAmongEnabled = enabledBtnList.indexOf(currentElem);
+    } else if (nextElem >= 0 && nextElem !== currentElem) {
       currentElem = nextElem;
       currentElemAmongEnabled = enabledBtnList.indexOf(currentElem);
-
-      if (btnList[disabledFocusedElem]) removeFocusFromDisabledBtn();
     }
+
+    if (btnList[disabledFocusedElem]) removeFocusFromDisabledBtn();
   }
 
   return [setRemoteControllerConfig, addLastBtnInEnabledBtnList, checkBoardBtn, orientationChangeHandler];
