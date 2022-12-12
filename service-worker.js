@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/updated-memory-game/precache-manifest.51230475812daa23a3a611f4e087b12f.js"
+  "/upgrated-memory-game/precache-manifest.8336bcab50ff2373e5d83cd4c19cb4e6.js"
 );
 
 workbox.clientsClaim();
@@ -28,7 +28,7 @@ self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.suppressWarnings();
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
-workbox.routing.registerNavigationRoute("/updated-memory-game/index.html", {
+workbox.routing.registerNavigationRoute("/upgrated-memory-game/index.html", {
   
   blacklist: [/^\/_/,/\/[^/]+\.[^/]+$/],
 });
