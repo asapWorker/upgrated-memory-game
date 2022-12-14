@@ -23,9 +23,10 @@ import {
   SHOW_MENU,
   FINISH_GAME,
   assistant,
-  PERMIT_CHOOSING, DENY_FINISHING, CHOOSE_ITEM, NO_ITEM,
+  PERMIT_CHOOSING, DENY_FINISHING, CHOOSE_ITEM, NO_ITEM
 } from "../../constants";
 import {addLastBtnInEnabledBtnList, getPercentageResult, setRemoteControllerConfig} from "../../functions";
+import {changeAssistantData} from "../../store/assistantSlice";
 
 // id for setTimeout in game
 let gameTimerId = null;
@@ -121,9 +122,9 @@ export function Game(props) {
       <Wrapper/>
       <Board/>
       <div className="bottom-interface">
-        <button ref={restartBtn} className="btn game-btn managing-btn" onClick={restartHandler}>Заново</button>
-        <button ref={menuBtn} className="btn game-btn managing-btn" onClick={menuHandler}>Меню</button>
-        <button ref={resultBtn} className="btn game-btn managing-btn" onClick={resultHandler}>Готово</button>
+        <button ref={restartBtn} className="btn game-btn managing-btn" onClick={restartBtnClickHandler}>Заново</button>
+        <button ref={menuBtn} className="btn game-btn managing-btn" onClick={menuBtnClickHandler}>Меню</button>
+        <button ref={resultBtn} className="btn game-btn managing-btn" onClick={resultBtnClickHandler}>Готово</button>
       </div>
     </div>
   )
@@ -133,7 +134,7 @@ export function Game(props) {
     props.changeAppScreen();
   }
 
-  function restartHandler(event) {
+  function restartHandler() {
     assistant.ref.sendData({ action: { action_id: RESTART_GAME}});
     dispatch(restartGame());
   }
@@ -141,5 +142,20 @@ export function Game(props) {
   function resultHandler() {
     assistant.ref.sendData({action: {action_id: FINISH_GAME, payload: getPercentageResult(result, level)}});
     dispatch(finishGame());
+  }
+
+  function menuBtnClickHandler() {
+    dispatch(changeAssistantData(SHOW_MENU));
+    menuHandler();
+  }
+
+  function restartBtnClickHandler() {
+    dispatch(changeAssistantData(RESTART_GAME));
+    restartHandler();
+  }
+
+  function resultBtnClickHandler() {
+    dispatch(changeAssistantData(FINISH_GAME));
+    resultHandler();
   }
 }

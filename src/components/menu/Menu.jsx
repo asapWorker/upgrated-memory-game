@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {startGame} from "../../store/gameSlice";
 import {assistant, EASY, MIDDLE, HARD, START_GAME} from "../../constants";
 import {setRemoteControllerConfig} from "../../functions";
+import {changeAssistantData} from "../../store/assistantSlice";
 
 export function Menu(props) {
   const dispatch = useDispatch();
@@ -21,6 +22,7 @@ export function Menu(props) {
 
   useEffect(() => {
     if (assistantData.type === START_GAME) {
+      console.log('start-game in menu')
       startGameHandler(assistantData.payload);
     }
   }, [assistantData])
@@ -32,12 +34,16 @@ export function Menu(props) {
     dispatch(startGame(level));
   }
 
+  function startGameBtnClickHandler(level) {
+    dispatch(changeAssistantData(START_GAME));
+    startGameHandler(level);
+  }
 
   return (
     <div className="menu">
-      <button ref={btnEasy} className="btn menu-btn managing-btn" onClick={() => startGameHandler(EASY)}>Легкий уровень</button>
-      <button ref={btnMiddle} className="btn menu-btn managing-btn" onClick={() => startGameHandler(MIDDLE)}>Средний уровень</button>
-      <button ref={btnHard} className="btn menu-btn managing-btn" onClick={() => startGameHandler(HARD)}>Сложный уровень</button>
+      <button ref={btnEasy} className="btn menu-btn managing-btn" onClick={() => startGameBtnClickHandler(EASY)}>Легкий уровень</button>
+      <button ref={btnMiddle} className="btn menu-btn managing-btn" onClick={() => startGameBtnClickHandler(MIDDLE)}>Средний уровень</button>
+      <button ref={btnHard} className="btn menu-btn managing-btn" onClick={() => startGameBtnClickHandler(HARD)}>Сложный уровень</button>
     </div>
   )
 }
