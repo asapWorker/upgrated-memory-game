@@ -2,10 +2,10 @@
   "name": "smiles-memory",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://asapWorker.github.io/updated-memory-game",
+  "homepage": "https://asapWorker.github.io/upgrated-memory-game",
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.0",
-    "@sberdevices/assistant-client": "^3.7.4",
+    "@salutejs/client": "^1.8.2",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
