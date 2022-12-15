@@ -16,7 +16,7 @@ self.__precacheManifest = [
     "url": "/upgrated-memory-game/static/js/runtime~main.1b7a8fea.js"
   },
   {
-    "revision": "676fccfbc17306f45c5d1c4ff12d96d6",
+    "revision": "ea71ed7a1a7353f7c2bc127c58a18efb",
     "url": "/upgrated-memory-game/index.html"
   }
 ];
