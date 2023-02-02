@@ -16,7 +16,7 @@
 - Redux and Redux-toolkit
 
 #### Trying locally
-- clone this repository
+- clone this repository from tag v1.0.0
 - run
   ```bash
   npm install
