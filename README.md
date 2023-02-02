@@ -1,4 +1,4 @@
-#memory-game
+# memory-game
 
 #### Game description
 - The game shows table of images, where some of them are the same;
